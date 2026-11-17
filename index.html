@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>Encuesta de Clima Laboral y Liderazgo — Análisis Integral</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces: warm stone-white paper */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Rules */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --btn-secondary-border: #c8c4b8;
+
+      /* Accents */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-bg: #e8f0f3;
+      --tertiary: #785008;
+      --warning-bg: #f5e6c4;
+      --error: #b42318;
+      --error-bg: #fdeceb;
+      --on-error: #ffffff;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Likert scale palette (contrast verified) */
+      --likert-5: #1f4e5f;
+      --likert-4: #3b6e80;
+      --likert-3: #d99000;
+      --likert-2: #b42318;
+      --likert-1: #7a1710;
+
+      /* Fonts */
+      --font-headline: 'Source Serif 4', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      /* Style effects */
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --badge-radius: 2px;
+      --heading-tracking: -0.02em;
+      --label-tracking: 0.08em;
+
+      /* Shared semantic & focus tokens */
+      --positive: #2b6e52;
+      --positive-bg: #e6f2ec;
+      --warning: #785008;
+      --focus: #1f4e5f;
+
+      /* Type scale (Dashboard) */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.35rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.55rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      position: static !important;
+    }
+
+    button, input, select {
+      font-family: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+      max-width: 1280px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .page-grid * {
+      min-width: 0;
+    }
+
+    /* Briefing Dossier Bar */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.6875rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border-radius: var(--badge-radius);
+      display: inline-block;
+    }
+
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Titles */
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--display-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.08;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      color: var(--secondary);
+      margin: var(--space-sm) 0 0;
+      max-width: 72ch;
+      line-height: 1.45;
+    }
+
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--headline-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .section-deck {
+      font-size: var(--body-size);
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 0;
+      max-width: 68ch;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+
+    .kpi-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      transition: border-color var(--dur-short) var(--ease-out);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    .kpi-badge {
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.125rem 0.4rem;
+      border-radius: var(--badge-radius);
+      background: var(--secondary-bg);
+      color: var(--secondary);
+      white-space: nowrap;
+    }
+
+    .kpi-badge.is-warning {
+      background: var(--warning-bg);
+      color: var(--tertiary);
+    }
+
+    .kpi-badge.is-positive {
+      background: var(--positive-bg);
+      color: var(--positive);
+    }
+
+    .kpi-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+    }
+
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: clamp(1.85rem, 1.5rem + 1vw, 2.35rem);
+      line-height: 1.05;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--on-surface);
+    }
+
+    .kpi-unit {
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+    }
+
+    .kpi-meter {
+      height: 6px;
+      width: 100%;
+      background: var(--surface-container);
+      border-radius: var(--badge-radius);
+      overflow: hidden;
+    }
+
+    .kpi-meter-fill {
+      height: 100%;
+      background: var(--data-1);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    .kpi-meter-fill.is-positive {
+      background: var(--data-3);
+    }
+
+    .kpi-meter-fill.is-gold {
+      background: var(--data-2);
+    }
+
+    .kpi-meter-fill.is-alert {
+      background: var(--data-4);
+    }
+
+    .kpi-sub {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Controls Bar */
+    .controls-panel {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .control-group.is-wide {
+      grid-column: span 2;
+    }
+
+    .control-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .filter-btn {
+      min-height: 44px;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--btn-secondary-border);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .filter-btn:hover {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+
+    .filter-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .filter-btn.is-priority-toggle.is-active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+
+    .select-input, .text-input {
+      min-height: 44px;
+      width: 100%;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--btn-secondary-border);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .select-input {
+      padding-right: 2rem;
+      cursor: pointer;
+    }
+
+    .select-input:hover, .text-input:hover {
+      border-color: var(--outline);
+    }
+
+    /* Explorer Split Grid */
+    .explorer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .chart-card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      margin-bottom: var(--space-md);
+    }
+
+    .chart-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .chart-subtitle {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 0;
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm) var(--space-md);
+      align-items: center;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: var(--badge-radius);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* Likert Horizontal Bars */
+    .chart-stage {
+      min-height: 420px;
+      position: relative;
+    }
+
+    .likert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .likert-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.4fr) 108px;
+      gap: var(--space-sm);
+      align-items: center;
+      padding: 0.45rem 0.55rem;
+      border-radius: var(--rounded);
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .likert-row:hover {
+      background: var(--surface-container);
+    }
+
+    .likert-row.is-selected {
+      background: var(--surface-container);
+      border-color: var(--secondary);
+    }
+
+    .likert-row.is-priority {
+      border-left: 3px solid var(--error);
+      padding-left: 0.45rem;
+    }
+
+    .likert-row-label {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-xs);
+      overflow: hidden;
+    }
+
+    .item-code {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      flex-shrink: 0;
+    }
+
+    .item-code.is-priority {
+      color: var(--error);
+    }
+
+    .item-text {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .likert-bar-track {
+      height: 22px;
+      width: 100%;
+      display: flex;
+      border-radius: var(--badge-radius);
+      overflow: hidden;
+      background: var(--surface-container-high);
+    }
+
+    .likert-seg {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: opacity var(--dur-micro) var(--ease-out);
+    }
+
+    .likert-seg-2 { background: var(--likert-2); color: var(--on-error); }
+    .likert-seg-3 { background: var(--likert-3); color: var(--on-surface); }
+    .likert-seg-4 { background: var(--likert-4); color: var(--on-error); }
+    .likert-seg-5 { background: var(--likert-5); color: var(--on-error); }
+
+    .likert-metrics {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .likert-mean {
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+
+    .likert-de {
+      color: var(--on-surface-variant);
+      font-size: 0.72rem;
+    }
+
+    /* Scatter & Block SVG Containers */
+    .svg-wrap {
+      width: 100%;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .svg-chart {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .scatter-dot {
+      cursor: pointer;
+      transition: transform var(--dur-micro) var(--ease-out);
+    }
+
+    .scatter-dot:hover {
+      opacity: 0.9;
+    }
+
+    /* Detail Inspector Panel */
+    .inspector-card {
+      position: sticky;
+      top: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .inspector-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .block-tag {
+      font-family: var(--font-label);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--badge-radius);
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+
+    .block-tag.is-liderazgo { background: var(--secondary-bg); color: var(--secondary); }
+    .block-tag.is-clima { background: var(--warning-bg); color: var(--tertiary); }
+    .block-tag.is-org { background: var(--positive-bg); color: var(--positive); }
+
+    .priority-pill {
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--badge-radius);
+      background: var(--error-bg);
+      color: var(--error);
+    }
+
+    .inspector-title {
+      font-family: var(--font-headline);
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .inspector-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+      border-bottom: 1px solid var(--outline-variant);
+      padding: var(--space-sm) 0;
+    }
+
+    .stat-mini-label {
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+
+    .stat-mini-val {
+      font-family: var(--font-label);
+      font-size: 1.05rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+
+    .freq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .freq-row {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr) 72px;
+      gap: var(--space-sm);
+      align-items: center;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+    }
+
+    .freq-track {
+      height: 12px;
+      background: var(--surface-container);
+      border-radius: var(--badge-radius);
+      overflow: hidden;
+    }
+
+    .freq-fill {
+      height: 100%;
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    .freq-count {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface-variant);
+    }
+
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md);
+      border-radius: 0 0 var(--rounded) var(--rounded);
+    }
+
+    .aside-title {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--secondary);
+      margin: 0 0 var(--space-xs);
+    }
+
+    .aside-copy {
+      font-size: 0.875rem;
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .quick-focus-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      align-items: center;
+    }
+
+    .quick-chip {
+      min-height: 36px;
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--btn-secondary-border);
+      background: var(--surface-container-low);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface);
+      cursor: pointer;
+    }
+
+    .quick-chip:hover {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+
+    .quick-chip.is-active {
+      background: var(--secondary);
+      color: var(--on-primary);
+      border-color: var(--secondary);
+    }
+
+    /* Dimensions Section */
+    .dimensions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .dimension-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      transition: border-color var(--dur-short) var(--ease-out);
+    }
+
+    .dimension-card.is-highlighted {
+      border-color: var(--secondary);
+      box-shadow: inset 0 3px 0 var(--secondary);
+    }
+
+    .dim-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: 0.2rem 0.45rem;
+      border-radius: var(--badge-radius);
+    }
+
+    .dim-title {
+      font-family: var(--font-headline);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: var(--space-xs) 0 0;
+      color: var(--on-surface);
+    }
+
+    .dim-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    .dim-score-box {
+      text-align: right;
+    }
+
+    .dim-score {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.85rem;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+
+    .dim-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      background: var(--surface-container);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .dim-summary {
+      font-size: 0.9rem;
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .dim-action-btn {
+      min-height: 44px;
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--btn-secondary-border);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    .dim-action-btn:hover {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    /* Priority Focus & Recommendations */
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .priority-card {
+      border-left: 4px solid var(--error);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .priority-card.is-opportunity {
+      border-left-color: var(--data-2);
+    }
+
+    .priority-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+
+    .priority-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      padding-top: var(--space-xs);
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    .reco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .reco-card {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .reco-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin: 0;
+      color: var(--on-surface);
+    }
+
+    /* Data Table */
+    .table-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .table-search-wrap {
+      flex: 1 1 280px;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--rounded);
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      min-width: 780px;
+    }
+
+    .data-table thead th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface);
+      text-align: left;
+      padding: 0.7rem 0.6rem;
+      border-bottom: var(--section-rule);
+      background: var(--surface-container-low);
+      white-space: nowrap;
+    }
+
+    .data-table thead th.is-num {
+      text-align: right;
+    }
+
+    .sort-th-btn {
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .sort-th-btn:hover {
+      color: var(--secondary);
+    }
+
+    .data-table tbody tr {
+      border-bottom: 1px solid var(--outline-variant);
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--surface-container);
+    }
+
+    .data-table tbody tr.is-selected {
+      background: var(--secondary-bg);
+    }
+
+    .data-table tbody td {
+      padding: 0.65rem 0.6rem;
+      vertical-align: middle;
+    }
+
+    .data-table tbody td.is-num {
+      text-align: right;
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .data-table tbody td.is-alert {
+      color: var(--error);
+      font-weight: 600;
+    }
+
+    /* Tooltip */
+    .chart-tooltip {
+      position: fixed;
+      z-index: 50;
+      pointer-events: none;
+      background: var(--on-surface);
+      color: var(--on-primary);
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--rounded);
+      font-size: 0.8rem;
+      max-width: 280px;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .chart-tooltip.is-visible {
+      display: block;
+    }
+
+    .tooltip-mono {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      color: var(--primary-container);
+    }
+
+    /* Footer */
+    .report-footer {
+      border-top: var(--section-rule);
+      padding-top: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Container Queries & Responsive */
+    .card-wrapper {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 560px) {
+      .likert-row {
+        grid-template-columns: minmax(0, 1fr) 96px;
+      }
+      .likert-bar-track {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .explorer-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .inspector-card {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .control-group.is-wide {
+        grid-column: span 1;
+      }
+      .inspector-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .figure-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+
+    <!-- 1. ENCABEZADO DEL DOSSIER -->
+    <header>
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">INFORME EJECUTIVO</span>
+          <span class="dossier-meta">ENCUESTA INSTITUCIONAL · ESCALA LIKERT 1–5</span>
+        </div>
+        <span class="dossier-meta">28 ÍTEMS · 21 PARTICIPANTES · 586 RESPUESTAS VÁLIDAS (99,7%)</span>
+      </div>
+      <h1 class="title">Encuesta de Clima Laboral y Liderazgo: Análisis Integral de Resultados</h1>
+      <p class="standfirst">
+        Desempeño general sobresaliente con media global de 4,87 sobre 5,00 y 98,0% de percepción favorable (4–5), apalancado en un liderazgo sólido (4,92) y con focos prioritarios de intervención en carga laboral (P26–P27), utilidad de reuniones (P25) y manejo de desacuerdos (P20).
+      </p>
+    </header>
+
+    <!-- 2. TARJETAS KPI DINÁMICAS -->
+    <section aria-label="Indicadores clave de desempeño">
+      <div class="kpi-grid" id="kpi-grid">
+        <article class="figure-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label" id="kpi-1-label">Media global (28 ítems)</span>
+            <span class="kpi-badge is-positive" id="kpi-1-badge">Sobresaliente</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-value" id="kpi-1-val">4,87</span>
+            <span class="kpi-unit">/ 5,00</span>
+          </div>
+          <div class="kpi-meter" aria-hidden="true">
+            <div class="kpi-meter-fill" id="kpi-1-meter" style="width: 97.4%;"></div>
+          </div>
+          <div class="kpi-sub" id="kpi-1-sub">DE media: 0,37 · Mediana: 5,0</div>
+        </article>
+
+        <article class="figure-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Percepción favorable (Top 2: 4–5)</span>
+            <span class="kpi-badge" id="kpi-2-badge">586 respuestas</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-value" id="kpi-2-val">98,0%</span>
+          </div>
+          <div class="kpi-meter" aria-hidden="true">
+            <div class="kpi-meter-fill is-positive" id="kpi-2-meter" style="width: 98%;"></div>
+          </div>
+          <div class="kpi-sub" id="kpi-2-sub">574 evaluaciones en 4 o 5</div>
+        </article>
+
+        <article class="figure-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Calificación máxima (5)</span>
+            <span class="kpi-badge" id="kpi-3-badge">Consenso alto</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-value" id="kpi-3-val">89,4%</span>
+          </div>
+          <div class="kpi-meter" aria-hidden="true">
+            <div class="kpi-meter-fill is-gold" id="kpi-3-meter" style="width: 89.4%;"></div>
+          </div>
+          <div class="kpi-sub" id="kpi-3-sub">524 de 586 respuestas en nivel 5</div>
+        </article>
+
+        <article class="figure-card kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-label">Focos bajo 3 (1–3)</span>
+            <span class="kpi-badge is-warning" id="kpi-4-badge">4 ítems clave</span>
+          </div>
+          <div class="kpi-value-row">
+            <span class="kpi-value" id="kpi-4-val">2,0%</span>
+          </div>
+          <div class="kpi-meter" aria-hidden="true">
+            <div class="kpi-meter-fill is-alert" id="kpi-4-meter" style="width: 2%;"></div>
+          </div>
+          <div class="kpi-sub" id="kpi-4-sub">10 en 3 · 2 en 2 · 0 en 1</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3. PANEL DE CONTROLES INTERACTIVOS -->
+    <section aria-label="Controles de exploración">
+      <div class="controls-panel">
+        <div class="control-group is-wide">
+          <span class="control-label">Filtrar por dimensión</span>
+          <div class="btn-row" role="group" aria-label="Filtro por dimensión">
+            <button type="button" class="filter-btn is-active" data-block="Todos" onclick="setBlockFilter('Todos')">Todas (28)</button>
+            <button type="button" class="filter-btn" data-block="Liderazgo" onclick="setBlockFilter('Liderazgo')">Liderazgo (17)</button>
+            <button type="button" class="filter-btn" data-block="Clima" onclick="setBlockFilter('Clima')">Clima e Interacción (6)</button>
+            <button type="button" class="filter-btn" data-block="Organización y carga" onclick="setBlockFilter('Organización y carga')">Organización y Carga (5)</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="view-select">Vista analítica</label>
+          <select id="view-select" class="select-input" onchange="setViewMode(this.value)">
+            <option value="likert">Distribución Likert por ítem</option>
+            <option value="blocks">Comparativa por dimensión</option>
+            <option value="scatter">Dispersión (DE) vs. Media</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label" for="sort-select">Ordenamiento de ítems</label>
+          <select id="sort-select" class="select-input" onchange="setSortMode(this.value)">
+            <option value="original">Orden original (P01–P28)</option>
+            <option value="mean-asc">Menor media primero</option>
+            <option value="de-desc">Mayor dispersión (DE)</option>
+            <option value="pct5-asc">Menor % de calificación 5</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">Focos prioritarios</span>
+          <button type="button" id="priority-toggle-btn" class="filter-btn is-priority-toggle" onclick="togglePriorityOnly()">
+            Solo focos (P20, P25, P26, P27)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. EXPLORADOR PRINCIPAL + INSPECTOR DE ÍTEM -->
+    <section aria-label="Explorador visual e inspector de ítems">
+      <div class="explorer-grid">
+        <div class="figure-card card-wrapper">
+          <div class="chart-card-head">
+            <div>
+              <h2 class="chart-title" id="chart-title">Distribución Likert por ítem (100% acumulado)</h2>
+              <p class="chart-subtitle" id="chart-subtitle">Escala 1 a 5 · Pase el cursor o seleccione un ítem para inspeccionar su desglose exacto</p>
+            </div>
+            <div class="legend-row" id="chart-legend" aria-label="Leyenda del gráfico">
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-2);"></span>2</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-3);"></span>3</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-4);"></span>4</span>
+              <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-5);"></span>5</span>
+            </div>
+          </div>
+
+          <div id="chart-stage" class="chart-stage"></div>
+        </div>
+
+        <!-- INSPECTOR DE ÍTEM ADYACENTE -->
+        <aside class="figure-card inspector-card" aria-label="Inspector detallado de ítem">
+          <div class="inspector-top">
+            <span class="dossier-pill" id="insp-code">P27</span>
+            <span class="block-tag is-org" id="insp-block">Organización y carga</span>
+            <span class="priority-pill" id="insp-priority">Foco prioritario</span>
+          </div>
+
+          <h3 class="inspector-title" id="insp-afirmacion">Las tareas de la institución son razonables</h3>
+
+          <div class="inspector-stats-grid">
+            <div>
+              <span class="stat-mini-label">Media</span>
+              <span class="stat-mini-val" id="insp-media">4,67</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">DE</span>
+              <span class="stat-mini-val" id="insp-de">0,80</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">Mínimo</span>
+              <span class="stat-mini-val" id="insp-min">2</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">Muestra (n)</span>
+              <span class="stat-mini-val" id="insp-n">21</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="control-label">Desglose de frecuencias (n1 a n5)</span>
+            <div class="freq-list" id="insp-freqs" style="margin-top: var(--space-sm);"></div>
+          </div>
+
+          <div class="inspector-stats-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+            <div>
+              <span class="stat-mini-label">% Top 2 (4–5)</span>
+              <span class="stat-mini-val" id="insp-top2">90,5%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Nivel 5</span>
+              <span class="stat-mini-val" id="insp-pct5">81,0%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Bajo 3 (1–3)</span>
+              <span class="stat-mini-val" id="insp-bajo3">9,5%</span>
+            </div>
+          </div>
+
+          <div class="aside-box">
+            <h4 class="aside-title">Lectura analítica</h4>
+            <p class="aside-copy" id="insp-note"></p>
+          </div>
+
+          <div>
+            <span class="control-label" style="display: block; margin-bottom: var(--space-xs);">Acceso rápido a focos prioritarios</span>
+            <div class="quick-focus-bar" id="quick-focus-bar">
+              <button type="button" class="quick-chip" data-item="P20" onclick="selectItem('P20', true)">P20</button>
+              <button type="button" class="quick-chip" data-item="P25" onclick="selectItem('P25', true)">P25</button>
+              <button type="button" class="quick-chip" data-item="P26" onclick="selectItem('P26', true)">P26</button>
+              <button type="button" class="quick-chip is-active" data-item="P27" onclick="selectItem('P27', true)">P27</button>
+              <button type="button" class="quick-chip" data-item="P04" onclick="selectItem('P04', true)">P04</button>
+              <button type="button" class="quick-chip" data-item="P28" onclick="selectItem('P28', true)">P28</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 5. EVALUACIÓN DETALLADA POR DIMENSIONES -->
+    <section aria-label="Evaluación detallada por dimensiones">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">DIMENSIONES</span>
+          <span class="dossier-meta">COMPARATIVA ESTRUCTURAL · 3 BLOQUES EVALUADOS</span>
+        </div>
+      </div>
+      <h2 class="section-heading">Evaluación detallada por dimensiones</h2>
+      <p class="section-deck">
+        El liderazgo actúa como ancla institucional con la mayor consistencia interna (DE 0,28), mientras Clima e Interacción y Organización y Carga presentan promedios altos con variaciones puntuales en ítems específicos.
+      </p>
+
+      <div class="dimensions-grid" style="margin-top: var(--space-lg);">
+        <article class="figure-card dimension-card" id="dim-card-Liderazgo">
+          <div class="dim-head">
+            <div>
+              <span class="index-num">01 · ANCLA INSTITUCIONAL</span>
+              <h3 class="dim-title">Liderazgo</h3>
+              <span class="dim-meta">17 ítems (P01–P17) · 355 respuestas</span>
+            </div>
+            <div class="dim-score-box">
+              <div class="dim-score">4,92</div>
+              <span class="dim-meta">DE 0,28</span>
+            </div>
+          </div>
+
+          <div class="likert-bar-track" aria-label="Distribución de Liderazgo: 93,2% nivel 5, 5,9% nivel 4, 0,8% nivel 3">
+            <div class="likert-seg likert-seg-3" style="width: 0.85%;"></div>
+            <div class="likert-seg likert-seg-4" style="width: 5.92%;">6%</div>
+            <div class="likert-seg likert-seg-5" style="width: 93.24%;">93,2%</div>
+          </div>
+
+          <div class="dim-metrics-row">
+            <div>
+              <span class="stat-mini-label">% Top 2</span>
+              <span class="stat-mini-val">99,2%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Nivel 5</span>
+              <span class="stat-mini-val">93,2%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Bajo 3</span>
+              <span class="stat-mini-val">0,8%</span>
+            </div>
+          </div>
+
+          <p class="dim-summary">
+            Doce de los 17 ítems alcanzan el techo de <strong>4,95</strong> (incluidos P11 y P14 con n=20). Las únicas 3 calificaciones de nivel 3 aparecen en P04 (<em>criterios uniformes</em>, 4,76), P02 (<em>anticipación de cambios</em>, 4,81) y P03 (<em>distribución equitativa</em>, 4,90).
+          </p>
+
+          <button type="button" class="dim-action-btn" onclick="focusDimension('Liderazgo')">Explorar 17 ítems de Liderazgo</button>
+        </article>
+
+        <article class="figure-card dimension-card" id="dim-card-Clima">
+          <div class="dim-head">
+            <div>
+              <span class="index-num">02 · COHESIÓN Y DIÁLOGO</span>
+              <h3 class="dim-title">Clima e Interacción</h3>
+              <span class="dim-meta">6 ítems (P18–P23) · 126 respuestas</span>
+            </div>
+            <div class="dim-score-box">
+              <div class="dim-score">4,79</div>
+              <span class="dim-meta">DE 0,51</span>
+            </div>
+          </div>
+
+          <div class="likert-bar-track" aria-label="Distribución de Clima: 84,1% nivel 5, 11,1% nivel 4, 4,8% nivel 3">
+            <div class="likert-seg likert-seg-3" style="width: 4.76%;">5%</div>
+            <div class="likert-seg likert-seg-4" style="width: 11.11%;">11%</div>
+            <div class="likert-seg likert-seg-5" style="width: 84.13%;">84,1%</div>
+          </div>
+
+          <div class="dim-metrics-row">
+            <div>
+              <span class="stat-mini-label">% Top 2</span>
+              <span class="stat-mini-val">95,2%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Nivel 5</span>
+              <span class="stat-mini-val">84,1%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Bajo 3</span>
+              <span class="stat-mini-val">4,8%</span>
+            </div>
+          </div>
+
+          <p class="dim-summary">
+            Registra fuerte sentido de equipo en P21 (<em>sin divisiones</em>, 4,86 y 100% en 4–5) y P23 (<em>satisfacción grupal</em>, 4,86). Sin embargo, concentra 6 respuestas en nivel 3, lideradas por <strong>P20</strong> (<em>discusión respetuosa de desacuerdos</em>: 4,71; 9,5% bajo 3).
+          </p>
+
+          <button type="button" class="dim-action-btn" onclick="focusDimension('Clima')">Explorar 6 ítems de Clima</button>
+        </article>
+
+        <article class="figure-card dimension-card" id="dim-card-Organización y carga">
+          <div class="dim-head">
+            <div>
+              <span class="index-num">03 · GESTIÓN OPERATIVA</span>
+              <h3 class="dim-title">Organización y Carga</h3>
+              <span class="dim-meta">5 ítems (P24–P28) · 105 respuestas</span>
+            </div>
+            <div class="dim-score-box">
+              <div class="dim-score">4,78</div>
+              <span class="dim-meta">DE 0,50</span>
+            </div>
+          </div>
+
+          <div class="likert-bar-track" aria-label="Distribución de Organización y carga: 82,9% nivel 5, 14,3% nivel 4, 1,0% nivel 3, 1,9% nivel 2">
+            <div class="likert-seg likert-seg-2" style="width: 1.90%;"></div>
+            <div class="likert-seg likert-seg-3" style="width: 0.95%;"></div>
+            <div class="likert-seg likert-seg-4" style="width: 14.29%;">14%</div>
+            <div class="likert-seg likert-seg-5" style="width: 82.86%;">82,9%</div>
+          </div>
+
+          <div class="dim-metrics-row">
+            <div>
+              <span class="stat-mini-label">% Top 2</span>
+              <span class="stat-mini-val">97,1%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Nivel 5</span>
+              <span class="stat-mini-val">82,9%</span>
+            </div>
+            <div>
+              <span class="stat-mini-label">% Bajo 3</span>
+              <span class="stat-mini-val">2,9%</span>
+            </div>
+          </div>
+
+          <p class="dim-summary">
+            Contraste marcado entre el reparto colaborativo (<strong>P28</strong> en 4,95 y claridad de objetivos <strong>P24</strong> en 4,90) y los únicos dos puntajes de nivel 2 de toda la encuesta en <strong>P26</strong> y <strong>P27</strong> (4,67), junto al menor porcentaje en nivel 5 en <strong>P25</strong> (71,4%).
+          </p>
+
+          <button type="button" class="dim-action-btn" onclick="focusDimension('Organización y carga')">Explorar 5 ítems de Organización</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- 6. FOCOS DE ATENCIÓN PRIORITARIA Y RECOMENDACIONES -->
+    <section aria-label="Focos de atención prioritaria y plan de acción">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">FOCOS PRIORITARIOS</span>
+          <span class="dossier-meta">ÍTEMS P20, P25, P26 Y P27 · DIAGNÓSTICO Y ACCIÓN</span>
+        </div>
+      </div>
+      <h2 class="section-heading">Identificación de focos de atención prioritaria</h2>
+      <p class="section-deck">
+        Aunque todos los ítems superan el umbral de 4,65, cuatro preguntas concentran las mayores desviaciones estándar, los puntajes mínimos de la encuesta o el menor porcentaje de calificación máxima.
+      </p>
+
+      <div class="priority-grid" style="margin-top: var(--space-lg);">
+        <article class="figure-card priority-card">
+          <div class="priority-card-head">
+            <span class="item-code is-priority">P27 · MAYOR DISPERSIÓN</span>
+            <span class="block-tag is-org">Organización y carga</span>
+          </div>
+          <h3 class="chart-title">Las tareas de la institución son razonables</h3>
+          <p class="aside-copy">
+            Registra la desviación estándar más alta de toda la encuesta (0,80) y reúne 1 respuesta en nivel 2 y 1 en nivel 3 (9,5% bajo 3), evidenciando sobrecarga percibida en al menos un caso puntual.
+          </p>
+          <div class="priority-metrics">
+            <span>Media: <strong>4,67</strong></span>
+            <span>DE: <strong>0,80</strong></span>
+            <span>Mín: <strong>2</strong></span>
+            <span>Bajo 3: <strong>9,5%</strong></span>
+          </div>
+          <button type="button" class="quick-chip" onclick="inspectFromSection('P27')">Ver P27 en el inspector</button>
+        </article>
+
+        <article class="figure-card priority-card">
+          <div class="priority-card-head">
+            <span class="item-code is-priority">P26 · CARGA INDIVIDUAL</span>
+            <span class="block-tag is-org">Organización y carga</span>
+          </div>
+          <h3 class="chart-title">Mi carga de trabajo es manejable</h3>
+          <p class="aside-copy">
+            Comparte la media más baja (4,67) e incluye el segundo puntaje de nivel 2 de la medición (4,8% bajo 3; 76,2% en 5). Contrasta con P28 (4,95), lo que apunta a volumen total de tareas más que a inequidad.
+          </p>
+          <div class="priority-metrics">
+            <span>Media: <strong>4,67</strong></span>
+            <span>DE: <strong>0,73</strong></span>
+            <span>Mín: <strong>2</strong></span>
+            <span>Nivel 5: <strong>76,2%</strong></span>
+          </div>
+          <button type="button" class="quick-chip" onclick="inspectFromSection('P26')">Ver P26 en el inspector</button>
+        </article>
+
+        <article class="figure-card priority-card">
+          <div class="priority-card-head">
+            <span class="item-code is-priority">P20 · GESTIÓN DEL DISENSO</span>
+            <span class="block-tag is-clima">Clima e Interacción</span>
+          </div>
+          <h3 class="chart-title">Los desacuerdos se discuten con respeto</h3>
+          <p class="aside-copy">
+            Presenta la menor media del bloque de Clima (4,71) y la mayor proporción de respuestas en nivel 3 junto con P27 (2 participantes, 9,5% bajo 3), señalando oportunidades en protocolos de debate grupal.
+          </p>
+          <div class="priority-metrics">
+            <span>Media: <strong>4,71</strong></span>
+            <span>DE: <strong>0,64</strong></span>
+            <span>Mín: <strong>3</strong></span>
+            <span>Bajo 3: <strong>9,5%</strong></span>
+          </div>
+          <button type="button" class="quick-chip" onclick="inspectFromSection('P20')">Ver P20 en el inspector</button>
+        </article>
+
+        <article class="figure-card priority-card is-opportunity">
+          <div class="priority-card-head">
+            <span class="item-code" style="color: var(--tertiary);">P25 · MENOR % EN NIVEL 5</span>
+            <span class="block-tag is-org">Organización y carga</span>
+          </div>
+          <h3 class="chart-title">Las reuniones son útiles</h3>
+          <p class="aside-copy">
+            Alcanza 100% en Top 2 (sin respuestas por debajo de 4), pero obtiene el porcentaje más bajo de calificación máxima (71,4%: 15 en 5 y 6 en 4). Indica margen claro de optimización operativa sin rechazo.
+          </p>
+          <div class="priority-metrics">
+            <span>Media: <strong>4,71</strong></span>
+            <span>DE: <strong>0,46</strong></span>
+            <span>Top 2: <strong>100%</strong></span>
+            <span>Nivel 5: <strong>71,4%</strong></span>
+          </div>
+          <button type="button" class="quick-chip" onclick="inspectFromSection('P25')">Ver P25 en el inspector</button>
+        </article>
+      </div>
+
+      <!-- RECOMENDACIONES ACCIONABLES -->
+      <div class="reco-grid" style="margin-top: var(--space-lg);">
+        <article class="reco-card">
+          <span class="index-num">ACCIÓN 01 · P26 Y P27</span>
+          <h3 class="reco-title">Revisar la carga institucional en casos críticos</h3>
+          <p class="aside-copy">
+            Realizar un chequeo individual de asignación operativa para identificar qué rol o área concentra las valoraciones de 2 y 3 (9,5% en P27) y redistribuir tareas no esenciales manteniendo el esquema valorado en P28 (4,95).
+          </p>
+        </article>
+
+        <article class="reco-card">
+          <span class="index-num">ACCIÓN 02 · P25</span>
+          <h3 class="reco-title">Optimizar el formato de las reuniones periódicas</h3>
+          <p class="aside-copy">
+            Acotar la duración e incorporar agendas cerradas con acuerdos accionables para convertir el 28,6% de evaluaciones en nivel 4 (6 participantes) hacia la calificación máxima (5).
+          </p>
+        </article>
+
+        <article class="reco-card">
+          <span class="index-num">ACCIÓN 03 · P20 Y P04</span>
+          <h3 class="reco-title">Establecer acuerdos de discusión y criterios explícitos</h3>
+          <p class="aside-copy">
+            Definir pautas breves para el manejo respetuoso de desacuerdos en equipo (P20, media 4,71) y transparentar criterios de asignación y cambios operativos (P04, 4,76; P02, 4,81).
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 7. TABLA COMPLETA DE ÍTEMS -->
+    <section aria-label="Tabla completa de resultados por ítem">
+      <div class="figure-card">
+        <div class="table-controls">
+          <div>
+            <h2 class="section-heading" style="font-size: var(--subhead-size);">Matriz completa de resultados (P01–P28)</h2>
+            <p class="chart-subtitle">Haga clic en cualquier fila para cargarla en el inspector superior; ordene por cualquier métrica.</p>
+          </div>
+          <div class="table-search-wrap">
+            <label class="control-label" for="table-search">Buscar ítem o afirmación</label>
+            <input type="search" id="table-search" class="text-input" placeholder="Ej. P27, carga, reuniones, respeto…" oninput="setTableSearch(this.value)">
+          </div>
+        </div>
+
+        <div class="table-scroll">
+          <table class="data-table" id="items-table">
+            <thead>
+              <tr>
+                <th><button type="button" class="sort-th-btn" onclick="sortTableBy('item')">Ítem</button></th>
+                <th><button type="button" class="sort-th-btn" onclick="sortTableBy('bloque')">Dimensión</button></th>
+                <th>Afirmación</th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('n')">n</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('media')">Media</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('de')">DE</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('min')">Mín</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('pct_5')">% 5</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('pct_top2')">% Top 2</button></th>
+                <th class="is-num"><button type="button" class="sort-th-btn" onclick="sortTableBy('pct_bajo3')">% Bajo 3</button></th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="report-footer">
+      <span>Fuente: Consolidado de encuesta institucional (resumen_items.csv) · 28 ítems · 21 participantes · 586 respuestas válidas (P11 y P14 con n=20).</span>
+      <span>Escala Likert 1 a 5 · Top 2 = niveles 4 y 5 · Bajo 3 = niveles 1, 2 y 3.</span>
+    </footer>
+  </div>
+
+  <div id="chart-tooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
+
+  <script>
+    const SURVEY_DATA = {
+      items: [
+        { item: `P01`, bloque: `Liderazgo`, afirmacion: `Explica con claridad las razones de las decisiones`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P02`, bloque: `Liderazgo`, afirmacion: `Informa con anticipación los cambios`, n: 21, media: 4.81, mediana: 5.0, de: 0.51, min: 3, n1: 0, n2: 0, n3: 1, n4: 2, n5: 18, pct_top2: 95.2, pct_5: 85.7, pct_bajo3: 4.8 },
+        { item: `P03`, bloque: `Liderazgo`, afirmacion: `Distribuye las tareas de forma equitativa`, n: 21, media: 4.90, mediana: 5.0, de: 0.44, min: 3, n1: 0, n2: 0, n3: 1, n4: 0, n5: 20, pct_top2: 95.2, pct_5: 95.2, pct_bajo3: 4.8 },
+        { item: `P04`, bloque: `Liderazgo`, afirmacion: `Aplica los mismos criterios con todos`, n: 21, media: 4.76, mediana: 5.0, de: 0.54, min: 3, n1: 0, n2: 0, n3: 1, n4: 3, n5: 17, pct_top2: 95.2, pct_5: 81.0, pct_bajo3: 4.8 },
+        { item: `P05`, bloque: `Liderazgo`, afirmacion: `Reconoce el trabajo bien hecho`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P06`, bloque: `Liderazgo`, afirmacion: `Ayuda a buscar solución a problemas`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P07`, bloque: `Liderazgo`, afirmacion: `Puedo expresar desacuerdo sin temor`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P08`, bloque: `Liderazgo`, afirmacion: `Tiene en cuenta la opinión del grupo`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P09`, bloque: `Liderazgo`, afirmacion: `La retroalimentación es útil`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P10`, bloque: `Liderazgo`, afirmacion: `Representa los intereses del grupo`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P11`, bloque: `Liderazgo`, afirmacion: `Cumple los compromisos`, n: 20, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 19, pct_top2: 100.0, pct_5: 95.0, pct_bajo3: 0.0 },
+        { item: `P12`, bloque: `Liderazgo`, afirmacion: `Apoya mi desarrollo profesional`, n: 21, media: 4.90, mediana: 5.0, de: 0.30, min: 4, n1: 0, n2: 0, n3: 0, n4: 2, n5: 19, pct_top2: 100.0, pct_5: 90.5, pct_bajo3: 0.0 },
+        { item: `P13`, bloque: `Liderazgo`, afirmacion: `Respeta mis tiempos fuera de la jornada`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P14`, bloque: `Liderazgo`, afirmacion: `Me da autonomía en mi trabajo docente`, n: 20, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 19, pct_top2: 100.0, pct_5: 95.0, pct_bajo3: 0.0 },
+        { item: `P15`, bloque: `Liderazgo`, afirmacion: `Me trata como persona`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P16`, bloque: `Liderazgo`, afirmacion: `Interviene con imparcialidad en tensiones`, n: 21, media: 4.90, mediana: 5.0, de: 0.30, min: 4, n1: 0, n2: 0, n3: 0, n4: 2, n5: 19, pct_top2: 100.0, pct_5: 90.5, pct_bajo3: 0.0 },
+        { item: `P17`, bloque: `Liderazgo`, afirmacion: `Valoración global del liderazgo`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 },
+        { item: `P18`, bloque: `Clima`, afirmacion: `Entre colegas nos ayudamos`, n: 21, media: 4.76, mediana: 5.0, de: 0.54, min: 3, n1: 0, n2: 0, n3: 1, n4: 3, n5: 17, pct_top2: 95.2, pct_5: 81.0, pct_bajo3: 4.8 },
+        { item: `P19`, bloque: `Clima`, afirmacion: `Confío en mis compañeros`, n: 21, media: 4.76, mediana: 5.0, de: 0.54, min: 3, n1: 0, n2: 0, n3: 1, n4: 3, n5: 17, pct_top2: 95.2, pct_5: 81.0, pct_bajo3: 4.8 },
+        { item: `P20`, bloque: `Clima`, afirmacion: `Los desacuerdos se discuten con respeto`, n: 21, media: 4.71, mediana: 5.0, de: 0.64, min: 3, n1: 0, n2: 0, n3: 2, n4: 2, n5: 17, pct_top2: 90.5, pct_5: 81.0, pct_bajo3: 9.5 },
+        { item: `P21`, bloque: `Clima`, afirmacion: `Funcionamos como equipo, sin divisiones`, n: 21, media: 4.86, mediana: 5.0, de: 0.36, min: 4, n1: 0, n2: 0, n3: 0, n4: 3, n5: 18, pct_top2: 100.0, pct_5: 85.7, pct_bajo3: 0.0 },
+        { item: `P22`, bloque: `Clima`, afirmacion: `Me siento parte del grupo`, n: 21, media: 4.81, mediana: 5.0, de: 0.51, min: 3, n1: 0, n2: 0, n3: 1, n4: 2, n5: 18, pct_top2: 95.2, pct_5: 85.7, pct_bajo3: 4.8 },
+        { item: `P23`, bloque: `Clima`, afirmacion: `Satisfacción con el grupo`, n: 21, media: 4.86, mediana: 5.0, de: 0.48, min: 3, n1: 0, n2: 0, n3: 1, n4: 1, n5: 19, pct_top2: 95.2, pct_5: 90.5, pct_bajo3: 4.8 },
+        { item: `P24`, bloque: `Organización y carga`, afirmacion: `Conozco los objetivos del periodo`, n: 21, media: 4.90, mediana: 5.0, de: 0.30, min: 4, n1: 0, n2: 0, n3: 0, n4: 2, n5: 19, pct_top2: 100.0, pct_5: 90.5, pct_bajo3: 0.0 },
+        { item: `P25`, bloque: `Organización y carga`, afirmacion: `Las reuniones son útiles`, n: 21, media: 4.71, mediana: 5.0, de: 0.46, min: 4, n1: 0, n2: 0, n3: 0, n4: 6, n5: 15, pct_top2: 100.0, pct_5: 71.4, pct_bajo3: 0.0 },
+        { item: `P26`, bloque: `Organización y carga`, afirmacion: `Mi carga de trabajo es manejable`, n: 21, media: 4.67, mediana: 5.0, de: 0.73, min: 2, n1: 0, n2: 1, n3: 0, n4: 4, n5: 16, pct_top2: 95.2, pct_5: 76.2, pct_bajo3: 4.8 },
+        { item: `P27`, bloque: `Organización y carga`, afirmacion: `Las tareas de la institución son razonables`, n: 21, media: 4.67, mediana: 5.0, de: 0.80, min: 2, n1: 0, n2: 1, n3: 1, n4: 2, n5: 17, pct_top2: 90.5, pct_5: 81.0, pct_bajo3: 9.5 },
+        { item: `P28`, bloque: `Organización y carga`, afirmacion: `El reparto de tareas institucionales aligera la carga`, n: 21, media: 4.95, mediana: 5.0, de: 0.22, min: 4, n1: 0, n2: 0, n3: 0, n4: 1, n5: 20, pct_top2: 100.0, pct_5: 95.2, pct_bajo3: 0.0 }
+      ],
+      bloques: [
+        { bloque: `Liderazgo`, display: `Liderazgo`, num_items: 17, total_respuestas: 355, media_items: 4.92, media_ponderada: 4.92, de_media: 0.28, n1: 0, n2: 0, n3: 3, n4: 21, n5: 331, pct_top2: 99.2, pct_5: 93.2, pct_bajo3: 0.8 },
+        { bloque: `Clima`, display: `Clima e Interacción`, num_items: 6, total_respuestas: 126, media_items: 4.79, media_ponderada: 4.79, de_media: 0.51, n1: 0, n2: 0, n3: 6, n4: 14, n5: 106, pct_top2: 95.2, pct_5: 84.1, pct_bajo3: 4.8 },
+        { bloque: `Organización y carga`, display: `Organización y Carga`, num_items: 5, total_respuestas: 105, media_items: 4.78, media_ponderada: 4.78, de_media: 0.50, n1: 0, n2: 2, n3: 1, n4: 15, n5: 87, pct_top2: 97.1, pct_5: 82.9, pct_bajo3: 2.9 }
+      ],
+      totals: {
+        total_items: 28,
+        total_respuestas: 586,
+        media_global_items: 4.87,
+        media_global_ponderada: 4.87,
+        de_media_global: 0.37,
+        n1: 0,
+        n2: 2,
+        n3: 10,
+        n4: 50,
+        n5: 524,
+        pct_top2_global: 98.0,
+        pct_5_global: 89.4,
+        pct_bajo3_global: 2.0
+      }
+    };
+
+    const PRIORITY_ITEMS = new Set([`P20`, `P25`, `P26`, `P27`]);
+
+    const ITEM_NOTES = {
+      P27: `Foco prioritario #1 en dispersión (DE 0,80): concentra 1 calificación en 2 y 1 en 3 (9,5% bajo 3), señalando que la carga institucional total requiere revisión focalizada.`,
+      P26: `Foco prioritario de carga individual (media 4,67; DE 0,73): incluye uno de los dos únicos puntajes de 2 de toda la encuesta (4,8% bajo 3).`,
+      P25: `100% favorable (Top 2), pero con el menor porcentaje de calificación máxima de la encuesta (71,4% en 5; 6 personas en 4). Oportunidad clara de hacer más ágiles y accionables las reuniones.`,
+      P20: `Mayor foco de atención en Clima (media 4,71; DE 0,64): reúne 2 respuestas en nivel 3 (9,5% bajo 3), indicando espacio para fortalecer protocolos de discusión respetuosa.`,
+      P04: `Desviación leve dentro de Liderazgo (media 4,76; DE 0,54): 1 respuesta en nivel 3 (4,8%). Conviene explicitar criterios de aplicación uniforme.`,
+      P02: `Desviación leve dentro de Liderazgo (media 4,81; DE 0,51): 1 respuesta en nivel 3 (4,8%). Reforzar el aviso anticipado de cambios operativos.`,
+      P03: `Aunque tiene 95,2% en nivel 5 (20 de 21), presenta 1 respuesta en nivel 3 (DE 0,44).`,
+      P11: `En el techo del bloque (4,95; 100% Top 2). Único ítem junto con P14 con 20 respuestas válidas (1 no respuesta).`,
+      P14: `En el techo del bloque (4,95; 100% Top 2). Único ítem junto con P11 con 20 respuestas válidas (1 no respuesta).`,
+      P28: `Fortaleza clave de Organización y Carga (4,95; DE 0,22): el reparto equitativo se valora muy alto, lo que confirma que la tensión en P26–P27 proviene del volumen total y no de la distribución.`
+    };
+
+    const state = {
+      block: `Todos`,
+      view: `likert`,
+      sort: `original`,
+      priorityOnly: false,
+      selectedItem: `P27`,
+      tableSearch: ``,
+      tableSortCol: `item`,
+      tableSortDir: `asc`
+    };
+
+    function fmtNum(val, decimals) {
+      return Number(val).toFixed(decimals).replace(`.`, `,`);
+    }
+
+    function getBlockDisplay(bloque) {
+      if (bloque === `Clima`) return `Clima e Interacción`;
+      if (bloque === `Organización y carga`) return `Organización y Carga`;
+      return `Liderazgo`;
+    }
+
+    function getBlockClass(bloque) {
+      if (bloque === `Clima`) return `is-clima`;
+      if (bloque === `Organización y carga`) return `is-org`;
+      return `is-liderazgo`;
+    }
+
+    function getBlockColorVar(bloque) {
+      if (bloque === `Clima`) return `var(--data-2)`;
+      if (bloque === `Organización y carga`) return `var(--data-3)`;
+      return `var(--data-1)`;
+    }
+
+    function getFilteredItems() {
+      let list = SURVEY_DATA.items.slice();
+      if (state.block !== `Todos`) {
+        list = list.filter(function (d) { return d.bloque === state.block; });
+      }
+      if (state.priorityOnly) {
+        list = list.filter(function (d) { return PRIORITY_ITEMS.has(d.item); });
+      }
+      if (state.sort === `mean-asc`) {
+        list.sort(function (a, b) {
+          return a.media - b.media || b.de - a.de || a.pct_5 - b.pct_5;
+        });
+      } else if (state.sort === `de-desc`) {
+        list.sort(function (a, b) {
+          return b.de - a.de || a.media - b.media;
+        });
+      } else if (state.sort === `pct5-asc`) {
+        list.sort(function (a, b) {
+          return a.pct_5 - b.pct_5 || a.media - b.media;
+        });
+      } else {
+        list.sort(function (a, b) {
+          return a.item.localeCompare(b.item);
+        });
+      }
+      return list;
+    }
+
+    function computeKpiStats() {
+      if (state.block === `Todos` && !state.priorityOnly) {
+        const t = SURVEY_DATA.totals;
+        return {
+          label1: `Media global (${t.total_items} ítems)`,
+          badge1: `Sobresaliente`,
+          mean: t.media_global_items,
+          de: t.de_media_global,
+          respuestas: t.total_respuestas,
+          pct_top2: t.pct_top2_global,
+          pct_5: t.pct_5_global,
+          pct_bajo3: t.pct_bajo3_global,
+          n1: t.n1, n2: t.n2, n3: t.n3, n4: t.n4, n5: t.n5,
+          itemsCount: t.total_items
+        };
+      }
+
+      if (!state.priorityOnly && state.block !== `Todos`) {
+        const b = SURVEY_DATA.bloques.find(function (x) { return x.bloque === state.block; });
+        if (b) {
+          return {
+            label1: `Media en ${b.display} (${b.num_items} ítems)`,
+            badge1: b.bloque === `Liderazgo` ? `Ancla` : `Dimensión`,
+            mean: b.media_items,
+            de: b.de_media,
+            respuestas: b.total_respuestas,
+            pct_top2: b.pct_top2,
+            pct_5: b.pct_5,
+            pct_bajo3: b.pct_bajo3,
+            n1: b.n1, n2: b.n2, n3: b.n3, n4: b.n4, n5: b.n5,
+            itemsCount: b.num_items
+          };
+        }
+      }
+
+      const subset = getFilteredItems();
+      if (subset.length === 0) {
+        return {
+          label1: `Sin ítems en selección`,
+          badge1: `Vacío`,
+          mean: 0, de: 0, respuestas: 0,
+          pct_top2: 0, pct_5: 0, pct_bajo3: 0,
+          n1: 0, n2: 0, n3: 0, n4: 0, n5: 0,
+          itemsCount: 0
+        };
+      }
+      let sumN = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 0, sumMean = 0, sumDe = 0;
+      subset.forEach(function (it) {
+        sumN += it.n;
+        n1 += it.n1; n2 += it.n2; n3 += it.n3; n4 += it.n4; n5 += it.n5;
+        sumMean += it.media;
+        sumDe += it.de;
+      });
+      return {
+        label1: `Focos seleccionados (${subset.length} ítems)`,
+        badge1: `Prioritario`,
+        mean: sumMean / subset.length,
+        de: sumDe / subset.length,
+        respuestas: sumN,
+        pct_top2: ((n4 + n5) / sumN) * 100,
+        pct_5: (n5 / sumN) * 100,
+        pct_bajo3: ((n1 + n2 + n3) / sumN) * 100,
+        n1: n1, n2: n2, n3: n3, n4: n4, n5: n5,
+        itemsCount: subset.length
+      };
+    }
+
+    function renderKpis() {
+      const s = computeKpiStats();
+      const setEl = function (id, txt) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+      };
+      const setWidth = function (id, pct) {
+        const el = document.getElementById(id);
+        if (el) el.style.width = Math.max(0, Math.min(100, pct)).toFixed(1) + `%`;
+      };
+
+      setEl(`kpi-1-label`, s.label1);
+      setEl(`kpi-1-badge`, s.badge1);
+      setEl(`kpi-1-val`, fmtNum(s.mean, 2));
+      setWidth(`kpi-1-meter`, (s.mean / 5) * 100);
+      setEl(`kpi-1-sub`, `DE media: ${fmtNum(s.de, 2)} · Mediana: 5,0`);
+
+      setEl(`kpi-2-badge`, `${s.respuestas} respuestas`);
+      setEl(`kpi-2-val`, fmtNum(s.pct_top2, 1) + `%`);
+      setWidth(`kpi-2-meter`, s.pct_top2);
+      setEl(`kpi-2-sub`, `${s.n4 + s.n5} de ${s.respuestas} evaluaciones en 4 o 5`);
+
+      setEl(`kpi-3-badge`, s.pct_5 >= 90 ? `Consenso muy alto` : (s.pct_5 >= 83 ? `Consenso alto` : `Oportunidad`));
+      setEl(`kpi-3-val`, fmtNum(s.pct_5, 1) + `%`);
+      setWidth(`kpi-3-meter`, s.pct_5);
+      setEl(`kpi-3-sub`, `${s.n5} de ${s.respuestas} respuestas en nivel 5`);
+
+      setEl(`kpi-4-badge`, state.priorityOnly ? `Filtro activo` : `4 ítems clave`);
+      setEl(`kpi-4-val`, fmtNum(s.pct_bajo3, 1) + `%`);
+      setWidth(`kpi-4-meter`, s.pct_bajo3);
+      setEl(`kpi-4-sub`, `${s.n3} en 3 · ${s.n2} en 2 · ${s.n1} en 1`);
+    }
+
+    function renderDimensionHighlight() {
+      SURVEY_DATA.bloques.forEach(function (b) {
+        const card = document.getElementById(`dim-card-${b.bloque}`);
+        if (!card) return;
+        if (state.block === b.bloque) {
+          card.classList.add(`is-highlighted`);
+        } else {
+          card.classList.remove(`is-highlighted`);
+        }
+      });
+    }
+
+    function renderInspector() {
+      const itemObj = SURVEY_DATA.items.find(function (d) { return d.item === state.selectedItem; }) || SURVEY_DATA.items[0];
+      if (!itemObj) return;
+
+      const setEl = function (id, txt) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+      };
+
+      setEl(`insp-code`, itemObj.item);
+      const blockEl = document.getElementById(`insp-block`);
+      if (blockEl) {
+        blockEl.textContent = getBlockDisplay(itemObj.bloque);
+        blockEl.className = `block-tag ${getBlockClass(itemObj.bloque)}`;
+      }
+
+      const prioEl = document.getElementById(`insp-priority`);
+      if (prioEl) {
+        if (PRIORITY_ITEMS.has(itemObj.item)) {
+          prioEl.style.display = `inline-block`;
+          prioEl.textContent = `Foco prioritario`;
+        } else if (itemObj.media === 4.95) {
+          prioEl.style.display = `inline-block`;
+          prioEl.style.background = `var(--positive-bg)`;
+          prioEl.style.color = `var(--positive)`;
+          prioEl.textContent = `Techo (4,95)`;
+        } else {
+          prioEl.style.display = `none`;
+        }
+        if (PRIORITY_ITEMS.has(itemObj.item)) {
+          prioEl.style.background = `var(--error-bg)`;
+          prioEl.style.color = `var(--error)`;
+        }
+      }
+
+      setEl(`insp-afirmacion`, itemObj.afirmacion);
+      setEl(`insp-media`, fmtNum(itemObj.media, 2));
+      setEl(`insp-de`, fmtNum(itemObj.de, 2));
+      setEl(`insp-min`, String(itemObj.min));
+      setEl(`insp-n`, String(itemObj.n));
+      setEl(`insp-top2`, fmtNum(itemObj.pct_top2, 1) + `%`);
+      setEl(`insp-pct5`, fmtNum(itemObj.pct_5, 1) + `%`);
+      setEl(`insp-bajo3`, fmtNum(itemObj.pct_bajo3, 1) + `%`);
+
+      const freqsEl = document.getElementById(`insp-freqs`);
+      if (freqsEl) {
+        const levels = [
+          { label: `Nivel 5`, count: itemObj.n5, color: `var(--likert-5)` },
+          { label: `Nivel 4`, count: itemObj.n4, color: `var(--likert-4)` },
+          { label: `Nivel 3`, count: itemObj.n3, color: `var(--likert-3)` },
+          { label: `Nivel 2`, count: itemObj.n2, color: `var(--likert-2)` },
+          { label: `Nivel 1`, count: itemObj.n1, color: `var(--likert-1)` }
+        ];
+        freqsEl.innerHTML = levels.map(function (lv) {
+          const pct = (lv.count / itemObj.n) * 100;
+          return `
+            <div class="freq-row">
+              <span>${lv.label}</span>
+              <div class="freq-track">
+                <div class="freq-fill" style="width: ${pct.toFixed(1)}%; background: ${lv.color};"></div>
+              </div>
+              <span class="freq-count">${lv.count} (${fmtNum(pct, 1)}%)</span>
+            </div>
+          `;
+        }).join(``);
+      }
+
+      const defaultNote = itemObj.media === 4.95
+        ? `Desempeño en el máximo observado de la encuesta (4,95; DE 0,22). Cero respuestas por debajo de 4 y alta consistencia del equipo.`
+        : `Valoración favorable sólida (${fmtNum(itemObj.pct_top2, 1)}% en niveles 4–5), con desviación estándar de ${fmtNum(itemObj.de, 2)}.`;
+      setEl(`insp-note`, ITEM_NOTES[itemObj.item] || defaultNote);
+
+      const chips = document.querySelectorAll(`#quick-focus-bar .quick-chip`);
+      chips.forEach(function (ch) {
+        if (ch.dataset.item === itemObj.item) ch.classList.add(`is-active`);
+        else ch.classList.remove(`is-active`);
+      });
+    }
+
+    function showTooltip(evt, htmlContent) {
+      const tip = document.getElementById(`chart-tooltip`);
+      if (!tip) return;
+      tip.innerHTML = htmlContent;
+      tip.classList.add(`is-visible`);
+      const pad = 14;
+      let left = evt.clientX + pad;
+      let top = evt.clientY + pad;
+      if (left + 280 > window.innerWidth) left = evt.clientX - 280 - pad;
+      if (top + 140 > window.innerHeight) top = evt.clientY - 130;
+      tip.style.left = Math.max(8, left) + `px`;
+      tip.style.top = Math.max(8, top) + `px`;
+    }
+
+    function hideTooltip() {
+      const tip = document.getElementById(`chart-tooltip`);
+      if (tip) tip.classList.remove(`is-visible`);
+    }
+
+    function renderChartStage() {
+      const stage = document.getElementById(`chart-stage`);
+      const titleEl = document.getElementById(`chart-title`);
+      const subEl = document.getElementById(`chart-subtitle`);
+      const legendEl = document.getElementById(`chart-legend`);
+      if (!stage) return;
+
+      if (state.view === `likert`) {
+        if (titleEl) titleEl.textContent = `Distribución Likert por ítem (100% acumulado)`;
+        if (subEl) subEl.textContent = `Escala 1 a 5 · Haga clic o pase el cursor sobre cualquier ítem para ver el desglose exacto`;
+        if (legendEl) {
+          legendEl.innerHTML = `
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-2);"></span>Nivel 2</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-3);"></span>Nivel 3</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-4);"></span>Nivel 4</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--likert-5);"></span>Nivel 5</span>
+          `;
+        }
+        renderLikertView(stage);
+      } else if (state.view === `blocks`) {
+        if (titleEl) titleEl.textContent = `Comparativa por dimensión: % Máximo (5) vs. % Favorable (4–5)`;
+        if (subEl) subEl.textContent = `Haga clic en cualquier bloque para filtrar los KPI e ítems del tablero`;
+        if (legendEl) {
+          legendEl.innerHTML = `
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-1);"></span>% Nivel 5</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-3);"></span>% Top 2 (4–5)</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-4);"></span>% Bajo 3 (1–3)</span>
+          `;
+        }
+        renderBlocksView(stage);
+      } else {
+        if (titleEl) titleEl.textContent = `Mapa de dispersión (DE) frente a Media por ítem`;
+        if (subEl) subEl.textContent = `Eje X: Media (4,60–5,00) · Eje Y: Desviación Estándar (0,00–0,90) · Líneas de referencia en media global (4,87) y DE (0,37)`;
+        if (legendEl) {
+          legendEl.innerHTML = `
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-1);"></span>Liderazgo</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-2);"></span>Clima</span>
+            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-3);"></span>Organización y carga</span>
+          `;
+        }
+        renderScatterView(stage);
+      }
+    }
+
+    function renderLikertView(stage) {
+      const items = getFilteredItems();
+      if (items.length === 0) {
+        stage.innerHTML = `<div class="aside-box"><p class="aside-copy">No hay ítems que coincidan con la combinación actual de filtros. Pruebe seleccionando "Todas" las dimensiones.</p></div>`;
+        return;
+      }
+
+      const rowsHtml = items.map(function (it) {
+        const p2 = (it.n2 / it.n) * 100;
+        const p3 = (it.n3 / it.n) * 100;
+        const p4 = (it.n4 / it.n) * 100;
+        const p5 = (it.n5 / it.n) * 100;
+        const isSel = state.selectedItem === it.item;
+        const isPrio = PRIORITY_ITEMS.has(it.item);
+
+        return `
+          <button type="button"
+            class="likert-row ${isSel ? `is-selected` : ``} ${isPrio ? `is-priority` : ``}"
+            data-item="${it.item}"
+            onclick="selectItem('${it.item}', false)"
+            onmouseenter="handleRowHover(event, '${it.item}')"
+            onmouseleave="hideTooltip()">
+            <div class="likert-row-label">
+              <span class="item-code ${isPrio ? `is-priority` : ``}">${it.item}</span>
+              <span class="item-text" title="${it.afirmacion}">${it.afirmacion}</span>
+            </div>
+            <div class="likert-bar-track" aria-hidden="true">
+              ${it.n2 > 0 ? `<div class="likert-seg likert-seg-2" style="width: ${p2.toFixed(2)}%;"></div>` : ``}
+              ${it.n3 > 0 ? `<div class="likert-seg likert-seg-3" style="width: ${p3.toFixed(2)}%;"></div>` : ``}
+              ${it.n4 > 0 ? `<div class="likert-seg likert-seg-4" style="width: ${p4.toFixed(2)}%;">${p4 >= 12 ? fmtNum(p4, 0) + `%` : ``}</div>` : ``}
+              ${it.n5 > 0 ? `<div class="likert-seg likert-seg-5" style="width: ${p5.toFixed(2)}%;">${fmtNum(p5, 1)}%</div>` : ``}
+            </div>
+            <div class="likert-metrics">
+              <span class="likert-mean">${fmtNum(it.media, 2)}</span>
+              <span class="likert-de">DE ${fmtNum(it.de, 2)}</span>
+            </div>
+          </button>
+        `;
+      }).join(``);
+
+      stage.innerHTML = `<div class="likert-list">${rowsHtml}</div>`;
+    }
+
+    function renderBlocksView(stage) {
+      const w = 680, h = 390;
+      const ml = 60, mr = 24, mt = 32, mb = 74;
+      const plotW = w - ml - mr;
+      const plotH = h - mt - mb;
+      const blocks = SURVEY_DATA.bloques;
+      const groupW = plotW / blocks.length;
+
+      let svg = `<div class="svg-wrap"><svg class="svg-chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Comparativa por dimensión de la encuesta">`;
+
+      // Gridlines 0, 25, 50, 75, 100
+      [0, 25, 50, 75, 100].forEach(function (tick) {
+        const y = mt + plotH - (tick / 100) * plotH;
+        svg += `<line x1="${ml}" y1="${y}" x2="${w - mr}" y2="${y}" stroke="var(--outline-variant)" stroke-dasharray="${tick === 0 ? `none` : `3 3`}" stroke-width="${tick === 0 ? `1.5` : `1`}" />`;
+        svg += `<text x="${ml - 10}" y="${y + 4}" text-anchor="end" fill="var(--on-surface-variant)" font-family="var(--font-label)" font-size="11">${tick}%</text>`;
+      });
+
+      blocks.forEach(function (b, idx) {
+        const cx = ml + groupW * idx + groupW / 2;
+        const barW = 40;
+        const gap = 8;
+
+        const h5 = (b.pct_5 / 100) * plotH;
+        const hTop2 = (b.pct_top2 / 100) * plotH;
+        const hBajo = (b.pct_bajo3 / 100) * plotH;
+
+        const x1 = cx - barW * 1.5 - gap;
+        const x2 = cx - barW * 0.5;
+        const x3 = cx + barW * 0.5 + gap;
+
+        const isSel = state.block === b.bloque;
+
+        svg += `<g style="cursor: pointer;" onclick="setBlockFilter('${b.bloque}')">`;
+        if (isSel) {
+          svg += `<rect x="${cx - groupW * 0.42}" y="${mt - 10}" width="${groupW * 0.84}" height="${plotH + 20}" rx="4" fill="var(--surface-container)" stroke="var(--secondary)" stroke-width="1.5" />`;
+        }
+
+        // Bar % 5
+        svg += `<rect x="${x1}" y="${mt + plotH - h5}" width="${barW}" height="${h5}" rx="2" fill="var(--data-1)" />`;
+        svg += `<text x="${x1 + barW / 2}" y="${mt + plotH - h5 - 6}" text-anchor="middle" fill="var(--on-surface)" font-family="var(--font-label)" font-size="11" font-weight="600">${fmtNum(b.pct_5, 1)}%</text>`;
+
+        // Bar % Top 2
+        svg += `<rect x="${x2}" y="${mt + plotH - hTop2}" width="${barW}" height="${hTop2}" rx="2" fill="var(--data-3)" />`;
+        svg += `<text x="${x2 + barW / 2}" y="${mt + plotH - hTop2 - 6}" text-anchor="middle" fill="var(--on-surface)" font-family="var(--font-label)" font-size="11" font-weight="600">${fmtNum(b.pct_top2, 1)}%</text>`;
+
+        // Bar % Bajo 3
+        const minH = Math.max(4, hBajo);
+        svg += `<rect x="${x3}" y="${mt + plotH - minH}" width="${barW}" height="${minH}" rx="2" fill="var(--data-4)" />`;
+        svg += `<text x="${x3 + barW / 2}" y="${mt + plotH - minH - 6}" text-anchor="middle" fill="var(--error)" font-family="var(--font-label)" font-size="11" font-weight="600">${fmtNum(b.pct_bajo3, 1)}%</text>`;
+
+        // X Axis Labels
+        svg += `<text x="${cx}" y="${mt + plotH + 22}" text-anchor="middle" fill="var(--on-surface)" font-family="var(--font-body)" font-size="13" font-weight="600">${b.display}</text>`;
+        svg += `<text x="${cx}" y="${mt + plotH + 40}" text-anchor="middle" fill="var(--secondary)" font-family="var(--font-label)" font-size="11">Media ${fmtNum(b.media_items, 2)} · DE ${fmtNum(b.de_media, 2)}</text>`;
+        svg += `<text x="${cx}" y="${mt + plotH + 56}" text-anchor="middle" fill="var(--on-surface-variant)" font-family="var(--font-label)" font-size="10">${b.num_items} ítems · ${b.total_respuestas} resp.</text>`;
+        svg += `</g>`;
+      });
+
+      svg += `</svg></div>`;
+      stage.innerHTML = svg;
+    }
+
+    function renderScatterView(stage) {
+      const items = getFilteredItems();
+      const w = 680, h = 420;
+      const ml = 58, mr = 32, mt = 28, mb = 52;
+      const plotW = w - ml - mr;
+      const plotH = h - mt - mb;
+
+      const xMin = 4.60, xMax = 5.00;
+      const yMin = 0.00, yMax = 0.90;
+
+      function sx(val) {
+        return ml + ((val - xMin) / (xMax - xMin)) * plotW;
+      }
+      function sy(val) {
+        return mt + plotH - ((val - yMin) / (yMax - yMin)) * plotH;
+      }
+
+      let svg = `<div class="svg-wrap"><svg class="svg-chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Gráfico de dispersión entre media y desviación estándar">`;
+
+      // Highlight attention quadrant (Media <= 4.78, DE >= 0.45)
+      const qx2 = sx(4.78), qy2 = sy(0.45);
+      svg += `<rect x="${ml}" y="${mt}" width="${qx2 - ml}" height="${qy2 - mt}" fill="var(--error-bg)" opacity="0.55" />`;
+      svg += `<text x="${ml + 8}" y="${mt + 16}" fill="var(--error)" font-family="var(--font-label)" font-size="10" font-weight="600">ZONA DE ATENCIÓN PRIORITARIA</text>`;
+
+      // Y Gridlines
+      [0.0, 0.2, 0.4, 0.6, 0.8].forEach(function (tick) {
+        const y = sy(tick);
+        svg += `<line x1="${ml}" y1="${y}" x2="${w - mr}" y2="${y}" stroke="var(--outline-variant)" stroke-dasharray="${tick === 0 ? `none` : `3 3`}" />`;
+        svg += `<text x="${ml - 10}" y="${y + 4}" text-anchor="end" fill="var(--on-surface-variant)" font-family="var(--font-label)" font-size="11">${fmtNum(tick, 2)}</text>`;
+      });
+
+      // X Gridlines
+      [4.60, 4.70, 4.80, 4.90, 5.00].forEach(function (tick) {
+        const x = sx(tick);
+        svg += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${mt + plotH}" stroke="var(--outline-variant)" stroke-dasharray="3 3" />`;
+        svg += `<text x="${x}" y="${mt + plotH + 18}" text-anchor="middle" fill="var(--on-surface-variant)" font-family="var(--font-label)" font-size="11">${fmtNum(tick, 2)}</text>`;
+      });
+
+      // Reference lines for Global Mean (4.87) & DE (0.37)
+      const gx = sx(4.87), gy = sy(0.37);
+      svg += `<line x1="${gx}" y1="${mt}" x2="${gx}" y2="${mt + plotH}" stroke="var(--secondary)" stroke-dasharray="5 4" stroke-width="1.2" />`;
+      svg += `<text x="${gx + 4}" y="${mt + 14}" fill="var(--secondary)" font-family="var(--font-label)" font-size="10">Media global 4,87</text>`;
+      svg += `<line x1="${ml}" y1="${gy}" x2="${w - mr}" y2="${gy}" stroke="var(--secondary)" stroke-dasharray="5 4" stroke-width="1.2" />`;
+      svg += `<text x="${w - mr - 4}" y="${gy - 5}" text-anchor="end" fill="var(--secondary)" font-family="var(--font-label)" font-size="10">DE global 0,37</text>`;
+
+      // Axis titles
+      svg += `<text x="${ml + plotW / 2}" y="${h - 8}" text-anchor="middle" fill="var(--on-surface)" font-family="var(--font-label)" font-size="11" font-weight="600">MEDIA DEL ÍTEM (ESCALA 1–5)</text>`;
+      svg += `<text x="16" y="${mt + plotH / 2}" text-anchor="middle" transform="rotate(-90 16 ${mt + plotH / 2})" fill="var(--on-surface)" font-family="var(--font-label)" font-size="11" font-weight="600">DESVIACIÓN ESTÁNDAR (DE)</text>`;
+
+      // Group identical coordinates so overlapping points are slightly jittered and clearly accessible
+      const coordBuckets = {};
+      items.forEach(function (it) {
+        const key = `${it.media.toFixed(2)}_${it.de.toFixed(2)}`;
+        if (!coordBuckets[key]) coordBuckets[key] = [];
+        coordBuckets[key].push(it);
+      });
+
+      Object.keys(coordBuckets).forEach(function (key) {
+        const group = coordBuckets[key];
+        group.forEach(function (it, idx) {
+          let cx = sx(it.media);
+          let cy = sy(it.de);
+          if (group.length > 1) {
+            const angle = (idx / group.length) * Math.PI * 2;
+            const rad = group.length > 5 ? 13 : 8;
+            cx += Math.cos(angle) * rad;
+            cy += Math.sin(angle) * rad;
+          }
+          const color = getBlockColorVar(it.bloque);
+          const isSel = state.selectedItem === it.item;
+          const isPrio = PRIORITY_ITEMS.has(it.item);
+          const r = isSel ? 9 : (isPrio ? 7.5 : 6);
+
+          svg += `<circle class="scatter-dot" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r}" fill="${color}" stroke="${isSel ? `var(--on-surface)` : `var(--surface-container-low)`}" stroke-width="${isSel ? `2.5` : `1.5`}" tabindex="0" role="button" aria-label="${it.item}: ${it.afirmacion}, media ${fmtNum(it.media, 2)}, DE ${fmtNum(it.de, 2)}" onclick="selectItem('${it.item}', false)" onmouseenter="handleRowHover(event, '${it.item}')" onmouseleave="hideTooltip()" />`;
+
+          if (group.length === 1 || isPrio || isSel) {
+            const labelOffset = it.item === `P26` ? 16 : -10;
+            svg += `<text x="${cx.toFixed(1)}" y="${(cy + labelOffset).toFixed(1)}" text-anchor="middle" fill="${isPrio ? `var(--error)` : `var(--on-surface)`}" font-family="var(--font-label)" font-size="10.5" font-weight="600" style="pointer-events: none;">${it.item}</text>`;
+          }
+        });
+
+        if (group.length >= 3) {
+          const base = group[0];
+          const bx = sx(base.media);
+          const by = sy(base.de);
+          svg += `<text x="${bx - 18}" y="${by + 28}" text-anchor="middle" fill="var(--on-surface-variant)" font-family="var(--font-label)" font-size="10" style="pointer-events: none;">${group.length} ítems en (4,95; 0,22)</text>`;
+        }
+      });
+
+      svg += `</svg></div>`;
+      stage.innerHTML = svg;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById(`table-body`);
+      if (!tbody) return;
+
+      const q = state.tableSearch.trim().toLowerCase();
+      let list = SURVEY_DATA.items.slice();
+      if (state.block !== `Todos`) {
+        list = list.filter(function (d) { return d.bloque === state.block; });
+      }
+      if (q) {
+        list = list.filter(function (d) {
+          return d.item.toLowerCase().includes(q) ||
+                 d.afirmacion.toLowerCase().includes(q) ||
+                 getBlockDisplay(d.bloque).toLowerCase().includes(q);
+        });
+      }
+
+      const col = state.tableSortCol;
+      const dir = state.tableSortDir === `asc` ? 1 : -1;
+      list.sort(function (a, b) {
+        if (col === `item` || col === `bloque`) {
+          return a[col].localeCompare(b[col]) * dir;
+        }
+        return (a[col] - b[col]) * dir;
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: var(--space-lg); color: var(--on-surface-variant);">No se encontraron ítems para "${state.tableSearch}".</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(function (it) {
+        const isSel = state.selectedItem === it.item;
+        const isPrio = PRIORITY_ITEMS.has(it.item);
+        return `
+          <tr class="${isSel ? `is-selected` : ``}" onclick="selectItem('${it.item}', true)">
+            <td><span class="item-code ${isPrio ? `is-priority` : ``}">${it.item}</span></td>
+            <td><span class="block-tag ${getBlockClass(it.bloque)}">${getBlockDisplay(it.bloque)}</span></td>
+            <td>${it.afirmacion}</td>
+            <td class="is-num">${it.n}</td>
+            <td class="is-num">${fmtNum(it.media, 2)}</td>
+            <td class="is-num ${it.de >= 0.60 ? `is-alert` : ``}">${fmtNum(it.de, 2)}</td>
+            <td class="is-num ${it.min <= 2 ? `is-alert` : ``}">${it.min}</td>
+            <td class="is-num">${fmtNum(it.pct_5, 1)}%</td>
+            <td class="is-num">${fmtNum(it.pct_top2, 1)}%</td>
+            <td class="is-num ${it.pct_bajo3 >= 9.0 ? `is-alert` : ``}">${fmtNum(it.pct_bajo3, 1)}%</td>
+          </tr>
+        `;
+      }).join(``);
+    }
+
+    function renderAll() {
+      renderKpis();
+      renderDimensionHighlight();
+      renderChartStage();
+      renderInspector();
+      renderTable();
+    }
+
+    /* Hoisted Event Handlers */
+    function setBlockFilter(block) {
+      state.block = block;
+      const btns = document.querySelectorAll(`.controls-panel .filter-btn[data-block]`);
+      btns.forEach(function (b) {
+        if (b.dataset.block === block) b.classList.add(`is-active`);
+        else b.classList.remove(`is-active`);
+      });
+      const visible = getFilteredItems();
+      if (visible.length > 0 && !visible.some(function (x) { return x.item === state.selectedItem; })) {
+        state.selectedItem = visible[0].item;
+      }
+      renderAll();
+    }
+
+    function setViewMode(mode) {
+      state.view = mode;
+      renderChartStage();
+    }
+
+    function setSortMode(mode) {
+      state.sort = mode;
+      renderChartStage();
+    }
+
+    function togglePriorityOnly() {
+      state.priorityOnly = !state.priorityOnly;
+      const btn = document.getElementById(`priority-toggle-btn`);
+      if (btn) {
+        if (state.priorityOnly) btn.classList.add(`is-active`);
+        else btn.classList.remove(`is-active`);
+      }
+      const visible = getFilteredItems();
+      if (visible.length > 0 && !visible.some(function (x) { return x.item === state.selectedItem; })) {
+        state.selectedItem = visible[0].item;
+      }
+      renderAll();
+    }
+
+    function selectItem(itemCode, shouldScrollToInspector) {
+      state.selectedItem = itemCode;
+      renderInspector();
+      renderChartStage();
+      renderTable();
+      if (shouldScrollToInspector) {
+        const insp = document.querySelector(`.inspector-card`);
+        if (insp) insp.scrollIntoView({ behavior: `smooth`, block: `nearest` });
+      }
+    }
+
+    function inspectFromSection(itemCode) {
+      state.block = `Todos`;
+      state.priorityOnly = false;
+      const btns = document.querySelectorAll(`.controls-panel .filter-btn[data-block]`);
+      btns.forEach(function (b) {
+        if (b.dataset.block === `Todos`) b.classList.add(`is-active`);
+        else b.classList.remove(`is-active`);
+      });
+      const pBtn = document.getElementById(`priority-toggle-btn`);
+      if (pBtn) pBtn.classList.remove(`is-active`);
+
+      state.selectedItem = itemCode;
+      renderAll();
+      const insp = document.querySelector(`.explorer-grid`);
+      if (insp) insp.scrollIntoView({ behavior: `smooth`, block: `start` });
+    }
+
+    function focusDimension(blockName) {
+      setBlockFilter(blockName);
+      const grid = document.querySelector(`.explorer-grid`);
+      if (grid) grid.scrollIntoView({ behavior: `smooth`, block: `start` });
+    }
+
+    function handleRowHover(evt, itemCode) {
+      const it = SURVEY_DATA.items.find(function (d) { return d.item === itemCode; });
+      if (!it) return;
+      const html = `
+        <div class="tooltip-mono">${it.item} · ${getBlockDisplay(it.bloque)}</div>
+        <div style="font-weight: 600; margin: 2px 0 4px;">${it.afirmacion}</div>
+        <div style="font-family: var(--font-label); font-size: 0.72rem;">
+          Media: ${fmtNum(it.media, 2)} · DE: ${fmtNum(it.de, 2)} · n=${it.n}<br>
+          n5=${it.n5} · n4=${it.n4} · n3=${it.n3} · n2=${it.n2} · n1=${it.n1}
+        </div>
+      `;
+      showTooltip(evt, html);
+    }
+
+    function setTableSearch(val) {
+      state.tableSearch = val;
+      renderTable();
+    }
+
+    function sortTableBy(col) {
+      if (state.tableSortCol === col) {
+        state.tableSortDir = state.tableSortDir === `asc` ? `desc` : `asc`;
+      } else {
+        state.tableSortCol = col;
+        state.tableSortDir = (col === `item` || col === `bloque`) ? `asc` : `desc`;
+      }
+      renderTable();
+    }
+
+    document.addEventListener(`DOMContentLoaded`, function () {
+      renderAll();
+    });
+  </script>
+</body>
+</html>
